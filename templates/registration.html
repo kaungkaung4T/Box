@@ -1,0 +1,52 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+<style>
+header{
+
+    height: 80px;
+    width: auto;
+}
+    body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+.rightsidebar{
+        height: 400px;
+        width: 400px;
+        float: right;
+}
+</style>
+<header>
+</header>
+<body class="p-3 mb-2 bg-dark text-white">
+<div class="rightsidebar">
+{% for mes in messages%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ mes }}</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button></div>
+{% endfor %}
+<p>Already have an account? <a href="login" style="text-decoration: none;">Sign In</a></p>
+    <div class="mb-3">
+        <form action="registration" method="POST">
+            {% csrf_token %}
+            <label class="form-label">User Name</label>
+            <input class="form-control" type="text" name="username" required>
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email" required>
+            <label class="form-label">Password</label>
+            <input class="form-control" type="password" name="password" required>
+            <label class="form-label">Rewrite Password</label>
+            <input class="form-control" type="password" name="password2" required><br>
+            <input class="btn btn-primary" type="submit" value="Register">
+        </form></div></div>
+</body>
+{% endblock %}

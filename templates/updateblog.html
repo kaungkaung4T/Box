@@ -1,0 +1,41 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% load crispy_forms_tags %}
+<header>
+</header>
+<div class="container" >
+<ul class="nav flex-column">
+<li class="nav-item">
+                {% if user.is_authenticated %}
+    <img src="{{ user.profile.image.url }}" class="avatar">
+                    {% endif %}
+            <legend class="border-bottom mb-4">{{ user }}</legend></li></ul></div>
+<body style="background-color: #18191a;">
+<div class="content">
+    {% if user.is_authenticated %}
+    <div class="text-white" style="">
+    <div class="card-body">
+<form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <fieldset class="form-group">
+                {% for mes in messages%}
+           <div class="alert alert-primary" role="alert">
+                {{mes}}
+               </div>
+                {% endfor %}
+        <h7>{{ form|crispy }}</h7>
+            </fieldset>
+    <div class="form-group">
+    <input class="btn btn-primary" type="submit" value="Update">
+    </div>
+</form>
+    </div></div>
+            {% else %}
+            <p>Login to use this features.</p>
+            {% endif %}
+</div>
+</body>
+{% endblock %}

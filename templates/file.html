@@ -1,0 +1,66 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% load crispy_forms_tags %}
+<header>
+</header>
+<div class="container" >
+<ul class="nav flex-column">
+<li class="nav-item">
+                {% if user.is_authenticated %}
+    <img src="{{ user.profile.image.url }}" class="avatar">
+                    {% endif %}
+            <legend class="border-bottom mb-4">{{ user }}</legend>
+</li></ul></div>
+<body style="background-color: #18191a;">
+<div class="content">
+    {% if user.is_authenticated %}
+    <div class="card text-white" style="background-color: #242526;">
+    <div class="card-body">
+<form action="file" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <fieldset class="form-group">
+                {% for mes in messages%}
+           <div class="alert alert-primary" role="alert">
+                {{mes}}
+               </div>
+                {% endfor %}
+        <h7> {{ f|crispy }}</h7>
+            </fieldset>
+    <div class="form-group">
+    <button class="btn btn-primary" type="submit" >
+                              Save <i class="bi bi-save"></i></button></div>
+</form></div></div><br>
+    <center><b>Your Saving Files</b></center><br>
+            {% if not fall%}
+    <div class="card text-white" style="background-color:  #242526;;">
+        <div class="card-body">
+            <center>No Files here</center>
+        </div></div>
+            {% endif %}
+    {% for ff in fall %}
+    <div class="card text-white mb-4" style="background-color: #242526;;">
+    <div class="card-body">
+            <p class="card-text">
+    <a href="{{ ff.file.url }}" target="_blank" style="text-decoration: none;color:white;">
+                {{ ff.file }}
+        </a></p>
+          <div class="card-footer text-muted">
+              <form action="{% url 'dfile' ff.id %}" method="POST">
+                  {% csrf_token %}
+<a href="{{ ff.file.url }}" target="_blank" style="text-decoration: none;color:white;" class="btn btn-primary">
+    <i class="bi bi-download"></i> Download </a>
+              &nbsp&nbsp<button class="btn btn-danger">Delete</button> Update your file?
+                  <a href="{% url 'ufile' ff.id %}">Update</a>
+                  </form></div></div></div>
+        {% endfor %}
+            {% else %}
+     <div class="card text-white mb-4" style="width: 565px;background-color: #242526;" >
+        <div class="card-body">
+                    <center>Login to use this features.</center></div></div>
+            {% endif %}
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<style>
+    .content {
+  max-width: 410px;
+  margin: auto;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<header>
+            <div class="right">
+        <form class="form-inline my-2 my-lg-0" action="search" method="POST">
+            {% csrf_token %}
+<div class="input-group">
+    <input class="form-control mr-sm-0" type="search" name="search" placeholder="Search people" aria-label="Search">
+            <button class="btn my-2 my-sm-0" type="submit" style="background-color:#242526;color:#fff;">  <i class="bi bi-search"></i></button>
+</div>
+        </form></div>
+</header>
+<div class="rightsidebar">
+    <div class="card" style="background-color: #242526;">
+  <div class="card-body">
+<ul class="nav flex-column ">
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+    <img src="{{ user.profile.image.url }}" class="avatar">
+            <legend class="border-bottom mb-4">{{ user }}</legend></li>
+<li class="mb-3">
+    <a href="profile" class="nav-link bg-dark text-white" >
+        Profile <i class="bi bi-person-fill"></i></a></li>
+    {% else %}
+    {% load static %}
+    <li class="nav-item">
+    <img src="{% static 'photo.jpg' %}" alt="upload your profile" class="avatar"></li>
+    <li  class="nav-item">
+        <legend class="border-bottom mb-4">Jisoo</legend></li>
+    <li class="mb-3">
+    <a class="nav-link bg-dark text-white" aria-current="page" href="profile">
+        Profile <i class="bi bi-person-fill"></i></a></li>
+    {% endif %}
+    <li class="mb-3">
+ <a class="nav-link bg-dark text-white" href="users">
+    Users <i class="bi bi-people-fill"></i></a></li>
+    <li class="mb-3">
+<a class="nav-link bg-dark text-white" href="setting">
+   Acc Setting <i class="bi bi-sliders2"></i></a></li>
+    {% if user.is_authenticated %}
+    <li class="mb-3">
+<a class="nav-link bg-dark text-white" href="logout">
+        Sign Out <i class="bi bi-box-arrow-in-right"></i></a></li>
+    {% else %}
+    <li class="mb-3">
+    <a class="nav-link bg-dark text-white" href="login">
+            Sign In <i class="bi bi-box-arrow-in-left"></i></a></li>
+    {% endif %}
+</ul></div></div></div>
+<div class="leftsidebar">
+       <div class="card text-white mb-3" style="border-radius: 5px;width: 22rem; height: 24rem;background-color: #242526;">
+           <h5 class="card-header">Box </h5>
+  <div class="card-body">
+    <h6 class="card-title" style="height: 1.2rem;"></h6>
+    <p class="card-text"><br><br><br><br><br></p>
+      <div class="card-footer text-muted">
+            <a href="blog" class="btn btn-dark" >Blog <i class="bi bi-pencil-square"></i></a>
+            <a href="file" class="btn btn-dark" >File Save <i class="bi bi-save"></i></a><br><br>
+            <a href="chat" class="btn btn-dark" >Enter ID to chat <i class="bi bi-chat-square-text"></i></a>
+          <a href="image" class="btn btn-dark" >Image <i class="bi bi-images"></i></a>
+      </div></div></div></div>
+<body style="background-color: #18191a;">
+<div class="content">
+            {% if not b %}
+    <div class="card text-white mb-3" style="width: 565px;background-color: #242526;" >
+    <div class="card-body">
+                  <center> No Blogs yet </center></div></div>
+            {% endif %}
+        {% for bb in b %}
+    {% if bb.user.username != user.username %}
+<a href="{% url 'profile2' bb.user.username %}" style="text-decoration:none; color:white;">
+        {% elif bb.user.username == user.username %}
+    <a href="profile" style="text-decoration:none; color:white;">
+        {% endif %}
+        <div class="card text-white mb-3" style="width: 565px;background-color: #242526;" >
+        <div class="card-body" >
+             <div class="card-header" > {{ bb.author }} ( posted by
+                 {% if bb.user.username != user.username %}
+                 <a href="{% url 'profile2' bb.user.username %}">{{ bb.user.username }} </a>
+                        {% else %}
+                 <a href="profile">{{ bb.user.username }} </a>
+                 {% endif %}
+                                )</div>
+          <h4 class="card-title"><center> {{ bb.title }} </center></h4><br>
+         <p class="card-text"> {{ bb.description|truncatewords:37 }}</p>
+            <div class="card-footer text-muted">{{ bb.time }} </div>
+            <br>
+                        <form action="like" method="POST" class="like-form" id="{{ bb.id }}">
+                                    {% csrf_token %}
+                <input type="hidden" name="like" value="{{ bb.id }}" >
+            <a href="{% url 'read' bb.id %}" class="btn btn-primary" > ReadMore </a>
+                &nbsp&nbsp<button class="btn btn-primary like-btn{{bb.id}}" type="submit" >
+                             {% if user not in bb.liked.all %}
+                                        React
+                                {% else %}
+                                      UnReact
+                            {% endif %}
+                            </button>
+                            &nbsp <label class="text-muted like-count{{bb.id}}">{{ bb.liked.all.count }} </label>
+                         <label class="text-muted">reacts</label>
+            </form>
+    </div></div></a></a>
+            {% endfor %}
+</div>
+</body>
+            <script src="{% static 'react.js' %}" defer>
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+<style>
+header{
+    height: 120px;
+    width: auto;
+}
+    body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+}
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+.rightsidebar{
+        height: 400px;
+        width: 400px;
+        float: right;
+}
+</style>
+<header>
+</header>
+<body class="p-3 mb-2 bg-dark text-white">
+<div class="rightsidebar">
+{% for mes in messages%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>{{ mes }}</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+    <p>New user? <a href="registration" style="text-decoration: none;">Create an account</a></p>
+    <div class="mb-3">
+        <form action="login" method="POST">
+            {% csrf_token %}
+            <label class="form-label">User Name</label>
+            <input class="form-control" type="text" name="username">
+            <label class="form-label">Password</label>
+            <input class="form-control" type="password" name="password"><br>
+            <input class="btn btn-primary" type="submit" value="Sign In">
+        </form></div></div>
+</body>
+{% endblock %}

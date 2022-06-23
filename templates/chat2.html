@@ -1,0 +1,105 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<style>
+body {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 300px;
+}
+.darker {
+  border-color: #1b2838;
+  background-color: #1b2838;
+}
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+.time-right {
+  float: right;
+  color: #aaa;
+}
+.time-left {
+  float: left;
+  color: #999;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<header>
+</header>
+<div class="rightsidebar">
+    {% include "pchain.html" %}
+</div>
+<body style="background-color: #18191a;">
+<div class="content">
+    <div  class="card text-white mb-3" style=" border-radius: 5px;background-color: #242526;padding: 20px;">
+            <h5 class="card-header">MessageBox</h5>
+        <div class="card-body">
+            <p id="card" class="card-text">
+            </p>
+        </div></div>
+        <script>
+                    $(document).ready(function(){
+                    setInterval(function(){
+                        $.ajax({
+                            type: "GET",
+                            url: "/sms/{{cid.name}}/",
+                        success: function(response){
+                            console.log(response);
+                            $("#card").empty();
+                        for (var key in response.new){
+                            var temp= "<div class='container darker'><b>" +
+                            '<img src="'+response.new[key].image+'" class="avatar2">'+
+                            response.new[key].username + "</b><p>" +
+                            response.new[key].data +
+                            "<p><span class='time-left'>" +
+                            response.new[key].time +"</span></div>";
+                            $("#card").append(temp);
+                        }
+                        },
+                        error: function(response){
+                            alert("error")
+                        }
+                        });
+                    },1000);
+               })
+        </script>
+    <div class="gg">
+        <form class="form-inline" id="form" >
+            {% csrf_token %}
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="hidden" name="username" id="username" value="{{ username }}">
+                <input type="hidden" name="speak" id="speak" value="{{ cid.id }}">
+                <input type="hidden" name="image" id="image" value="{{ user.profile.image.url }}">
+                <input class="form-control mr-sm-2" type="text" name="chatting" id="chatting" placeholder="message">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit" >Send <i class="bi bi-send"></i></button>
+            </div>
+        </form></div></div>
+</body>
+<script type="text/javascript" src="{% static 'chat.js' %}" defer>
+</script>
+{% endblock %}

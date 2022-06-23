@@ -1,0 +1,49 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% load crispy_forms_tags %}
+<style>
+    h7{
+    color: white;
+    }
+</style>
+<header>
+</header>
+<div class="container">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            {% if user.is_authenticated %}
+            <img src="{{ user.profile.image.url }}" class="avatar">
+            {% endif %}
+            <legend class="border-bottom mb-4">{{ user }}</legend></li></ul></div>
+<body style="background-color: #18191a;">
+<div class="content">
+    {% if user.is_authenticated %}
+    <div class="text-white" style="">
+        <div class="card-body">
+            <form action="blog" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {% for mes in messages%}
+                    <div class="alert alert-primary" role="alert">
+                        {{mes}}
+                    </div>
+                    {% endfor %}
+                    <h7>{{ blog|crispy }}</h7>
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-upload"></i> Upload
+                    </button>
+                    &nbsp; Update your Blog?&nbsp;<a href="profile">Update</a></div>
+            </form></div></div>
+    {% else %}
+    <div class="card text-white mb-4" style="width: 565px;background-color: #242526;">
+        <div class="card-body">
+            <center>Login to use this features.</center></div></div>
+    {% endif %}
+</div>
+</body>
+{% endblock %}

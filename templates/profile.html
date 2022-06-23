@@ -1,0 +1,65 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% load crispy_forms_tags %}
+<style>
+header{
+    height: 30px;
+    width: auto;
+}
+</style>
+<header>
+</header>
+  <div class="container" >
+    <img src="{{ user.profile.image.url }}" class="avatar">
+        <form method="POST" enctype="multipart/form-data"><br>
+            {% csrf_token%}
+            <fieldset class="form-group text-white">
+                {% for mes in messages%}
+           <div class="alert alert-primary" role="alert">
+                {{mes}}
+               </div>
+               {% endfor %}
+            <legend class="border-bottom mb-0">{{ user }}</legend>
+                        <div class="text-white mb-2" style="width: 500px;" >
+            <div class="card-body">
+                    {% if user.is_authenticated %}
+                        {{ p|crispy }}
+                {% endif %}
+            </div></div>
+            </fieldset>
+            <div class="form-group">
+                                {% if user.is_authenticated %}
+            <button class="btn btn-primary" type="submit">Update Profile <i class="bi bi-file-earmark-image"></i></button>
+                                    {% endif %}
+ &nbsp<a href="blog" class="btn btn-primary">Blog <i class="bi bi-pencil-square"></i></a></div>
+        </form></div>
+<body style="background-color: #18191a;">
+<div class="content">
+            <h3 class="text-white mb-4">Blogs</h3>
+            {% if not new %}
+          <div class="card text-white mb-4" style="width: 565px;background-color: #242526;;" >
+        <div class="card-body">
+                    <center>No Blogs here</center></div></div>
+                {% endif %}
+            {% for new_new in new %}
+    <div class="card text-white mb-3" style="width: 565px;background-color: #242526;;" >
+        <div class="card-body">
+             <div class="card-header"> {{ new_new.author }} ( posted by {{ new_new.user.username }} )
+             </div>
+          <h4 class="card-title"><center> {{ new_new.title }} </center></h4><br>
+         <p class="card-text"> {{ new_new.description }}</p>
+            <div class="card-footer text-muted">{{ new_new.time }} </div>
+                 <form action="{% url 'deleteblog' new_new.id %}" method="POST">
+                     {% csrf_token %}
+                     <br>
+         <button class="btn btn-danger" type="submit">Delete</button>
+                     <label class="text-muted"> Update your Blog?&nbsp;</label>
+                     <a href="{% url 'updateblog' new_new.id %}">Update</a>
+                 </form></div></div><br>
+            {% endfor %}
+</div>
+</body>
+{% endblock %}

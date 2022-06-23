@@ -1,0 +1,38 @@
+<div class="card" style="background-color: #242526;">
+  <div class="card-body">
+<ul class="nav flex-column ">
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+    <img src="{{ user.profile.image.url }}" class="avatar">
+            <legend class="border-bottom mb-4">{{ user }}</legend></li>
+<li class="mb-3">
+    <a href="/profile" class="nav-link bg-dark text-white" >
+        Profile <i class="bi bi-person-fill"></i></a></li>
+    {% else %}
+    {% load static %}
+    <li class="nav-item">
+    <img src="{% static 'photo.jpg' %}" alt="upload your profile" class="avatar"></li>
+    <li  class="nav-item">
+        <legend class="border-bottom mb-4">Jisoo</legend></li>
+    <li class="mb-3">
+    <a class="nav-link bg-dark text-white" aria-current="page" href="/profile">
+        Profile <i class="bi bi-person-fill"></i></a></li>
+    {% endif %}
+    <li class="mb-3">
+ <a class="nav-link bg-dark text-white" href="/users">
+    Users <i class="bi bi-people-fill"></i></a></li>
+    <li class="mb-3">
+<a class="nav-link bg-dark text-white" href="/setting">
+   Acc Setting <i class="bi bi-sliders2"></i></a></li>
+    {% if user.is_authenticated %}
+    <li class="mb-3">
+<a class="nav-link bg-dark text-white" href="/logout">
+        Sign Out <i class="bi bi-box-arrow-in-right"></i></a></li>
+    {% else %}
+    <li class="mb-3">
+    <a class="nav-link bg-dark text-white" href="/login">
+            Sign In <i class="bi bi-box-arrow-in-left"></i></a></li>
+    {% endif %}
+</ul>
+</div>
+    </div>

@@ -1,0 +1,60 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<header>
+</header>
+<div class="rightsidebar">
+     {% include "pchain.html" %}
+</div>
+<body style="background-color: #18191a;">
+    <div class="content">
+          <form class="form-inline" method="POST">
+              {% csrf_token %}
+    <input class="form-control col-lg-9 mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  </div><br><br>
+                {% if s %}
+            <div class="row" >
+                <div class="col" >
+             <p>Your search {{ s }} results: </p>
+                </div></div><br>
+                    {% endif %}
+            {% if s %}
+<div class="row" >
+        {% for c in create.name %}
+        <div class="col" >
+        <div class="card" style="width: 17rem; width: 17rem;">
+  <img class="card-img-top" src="{{ c.cover_photo.urls.small }}" alt="Card image cap" style="height: 240px;object-fit:cover;">
+</div><br>
+        </div>
+            {% endfor %}
+</div>
+                    {% if create.name %}
+    <form method="POST">
+        {% csrf_token %}
+        <center>
+            <input type="hidden" value="{{ s }}" name="save">
+            <input type="hidden" value="{{ num }}" name="save2">
+              <button class="btn btn-primary" name="hello" type="submit" >Next <i class="bi bi-arrow-right"></i></button>
+              </center>
+    </form>
+                {% else %}
+    <br><div class="content">
+        <div class="card text-white mb-4" style="width: 565px;background-color: #242526;" >
+            <div class="card-body">
+                    <center>No result here.</center>
+            </div></div></div>
+            {% endif %}
+                {% else %}
+                                    <br><br><br><br>
+            <div class="content">
+                <div class="card text-white mb-4" style="width: 565px;background-color: #242526;" >
+            <div class="card-body">
+                    <center>Can Search more than 3.7M images.</center></div></div></div>
+        {% endif %}
+    <br><br><br>
+</body>
+{% endblock %}

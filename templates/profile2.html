@@ -1,0 +1,35 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<header>
+</header>
+<div class="container" >
+<ul class="nav flex-column">
+<li class="nav-item">
+        {% for img in image %}
+    <img src="{{ img.image.url }}" class="avatar">
+            <legend class="border-bottom mb-4">{{ img.user.username }}</legend>
+        {% endfor %}
+</li></ul></div>
+<body style="background-color: #18191a;">
+<div class="content">
+    <h3 class="text-white mb-4">Blogs</h3><br>
+                    {% if not new %}
+                 <div class="card text-white mb-4" style="width: 565px;background-color: #242526;" >
+        <div class="card-body">
+                    <center> No Blogs here</center>
+            </div></div>
+                    {% endif %}
+            {% for new_new in new %}
+    <div class="card text-white mb-4" style="width: 565px;background-color: #242526;" >
+        <div class="card-body">
+            <div class="card-header"> {{ new_new.author }} ( posted by {{ new_new.user.username }} )</div>
+          <h4 class="card-title"><center> {{ new_new.title }} </center></h4><br>
+         <p class="card-text"> {{ new_new.description }}</p>
+            <div class="card-footer text-muted">{{ new_new.time }} </div></div></div>
+            {% endfor %}
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<header>
+      <div class="right">
+        <form class="form-inline my-2 my-lg-0" action="search" method="POST">
+            {% csrf_token %}
+    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search people" aria-label="Search">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        </div>
+</header>
+<div class="rightsidebar">
+    {% include "pchain.html" %}
+</div>
+<body style="background-color: #18191a;">
+            {% if s %}
+    <div class="content">
+        <p>Your search {{ s }} results: </p>
+    </div><br>
+            {% endif %}
+    <div class="content">
+    <div class="card" style="
+        background-color:  #242526;">
+        {% if search %}
+    {% for ss in search %}
+    {% if ss.user != user %}
+<div class="card-body">
+            <center>
+     <a href="{% url 'profile2' ss.user.username %}" style="text-decoration: none;"> <img src="{{ ss.image.url }}" class="avatar" style="width: 3.5rem; height: 3.5rem;">
+    <p>{{ ss.user }}</p> </a>
+            </center></div>
+    {% endif %}
+    {% endfor %}
+            {% else %}
+            <div class="card-body">
+            <center>
+            <p>No result found :(</p>
+            </center></div>
+ {% endif %}
+</div></div>
+</body>
+{% endblock %}

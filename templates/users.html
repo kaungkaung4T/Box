@@ -1,0 +1,36 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+{% include "chain.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<style>
+   body {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+</style>
+<header>
+</header>
+<div class="rightsidebar">
+    {% include "pchain.html" %}
+</div>
+<body style="background-color: #18191a;">
+    <div class="content">
+    <div class="card" style="
+        background-color: #242526;">
+    {% for pp in p %}
+    {% if pp.user != user %}
+<div class="card-body">
+            <center>
+                {% if not p %}
+                 <p>No users here</p>
+                {% endif %}
+     <a href="{% url 'profile2' pp.user.username %}" style="text-decoration: none;"> <img src="{{ pp.image.url }}" class="avatar" style="width: 3.5rem; height: 3.5rem;">
+    <p>{{ pp.user.username }}</p> </a>
+            </center></div>
+ {% endif %}
+    {% endfor %}
+</div></div>
+</body>
+{% endblock %}
