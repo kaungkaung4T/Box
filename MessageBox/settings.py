@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','mediaabox.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'mediaabox.herokuapp.com']
 # ALLOWED_HOSTS = []
 
 
