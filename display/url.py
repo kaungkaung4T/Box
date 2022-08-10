@@ -29,6 +29,9 @@ urlpatterns = [
     path("setting", views.setting, name="setting"),
     path("users", views.users, name="users"),
 
+    path("api", views.api),
+
+
     path("rest", views.resting.as_view(), name="rest"),
     path("rest/<str:pk>/", views.resting.as_view(), name="update"),
     path("rest/<str:pk>/update", views.update_rest, name="up"),

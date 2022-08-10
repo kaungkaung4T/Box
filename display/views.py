@@ -21,6 +21,15 @@ import json
 import urllib.request
 
 
+@api_view(["GET"])
+def api(request):
+    context = [
+        "api/token",
+        "api/token/refresh"
+    ]
+    return JsonResponse(context, safe=False)
+
+
 # building api and all tests are tested with post man and all success
 #test blog use with rest framwork and post man everything that tested are works
 class resting(APIView):
