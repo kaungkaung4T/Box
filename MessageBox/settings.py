@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j#$bb!3i)vm4gq$ds-ugy8)(lo2vtp2y(2lrebh83-d@_)8!c5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','mediaabox.herokuapp.com']
 # ALLOWED_HOSTS = []
