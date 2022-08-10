@@ -24,10 +24,10 @@ import urllib.request
 @api_view(["GET"])
 def api(request):
     context = [
-        "api/token",
-        "api/token/refresh"
+        "api/token/",
+        "api/token/refresh/"
     ]
-    return JsonResponse(context, safe=False)
+    return Response(context)
 
 
 # building api and all tests are tested with post man and all success
